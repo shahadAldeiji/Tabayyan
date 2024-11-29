@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Tabyyan Home</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/templatemo-topic-listing.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-storage-compat.js"></script>
+    <script src="/js/main.js"></script>
+
+    <style>
+        .custom-block-image-Logo {
+            width: 120px; /* Adjust width */
+            height: auto;
+            margin-left: -80px; /* Shift to the left */
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #f0f0f0; /* Change to your desired color */
+            color: #1c5f81; /* Change to your desired text color */
+            text-decoration: none; /* Remove underline */
+       }
+
+       .nav-linke.click-scroll {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            color: white;
+        }
+
+        .nav-linke.click-scroll:hover {
+
+            color: var(--blue-color); 
+        }    
+
+
+        .featured-section {
+            padding: 50px 0;
+        }
+
+        .custom-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .left-card {
+            padding-left: 150px;
+        }
+
+        .right-card {
+            padding-left: 20px;   
+        }
+
+        
+
+        .left-card .custom-block {
+            align-items: flex-start;
+        }
+
+        .left-card .custom-block img {
+            width: 230px; /* Set desired width */
+            height: auto;
+            margin-left: auto;
+            margin-top: auto;
+        }
+
+        .left-card p {
+            color: black;
+        }
+
+        .right-card .custom-block {
+            align-items: flex-start;
+        }
+
+        .right-card img {
+            width: 170px; /* Set desired width */
+            height: auto;
+            align-self: flex-start;
+            margin-bottom: 50px;
+        }
+
+        .right-card ul li {
+            color: black !important;
+            font-size: 20px;
+        }
+
+        .hero-section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/index_imagee.jpeg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 150px 0;
+        }
+
+        .custom-button {
+        width: 350px;
+        height: 70px;
+        font-size: 20px;
+        background-color: #1c5f81;
+        color: white;
+        display: inline-block;
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        line-height: 70px; /* Aligns text vertically */
+        border-radius: 5px;
+        text-decoration: none;
+        
+        }
+        .custom-button:hover {
+        background-color: #174a64; /* Slightly darker green on hover */
+        color: white; /* Keeps text color the same */
+        }
+        
+    </style>
+    
+</head>
+
+<body id="top">
+
+    <main>
+        <div class="background-color-white">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-2 col-sm-12">
+                        <img src="images/LogoMain.png" class="custom-block-image-Logo img-fluid" alt="Logo">
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-4 my_padding text-center">
+                        <a class="nav-linke click-scroll" href="#section_1">Home</a>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 my_padding text-center">
+                        <a class="nav-linke click-scroll" href="#section_2">How it works</a>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 my_padding text-center">
+                        <a class="nav-linke click-scroll" href="#section_3">Contact Us</a>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 text-end my_padding">
+                        <div class="d-none d-lg-block">
+                            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false"></button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li class="only-user">
+                                    <a class="nav-link click-scroll bi bi-pencil-square" href="/profile"
+                                        style="font-size: 16px; margin-left: 10px;"> My profile</a>
+                                </li>
+                                <li class="only-user">
+                                    <a class="nav-link click-scroll bi bi-box-arrow-right" href="/login"
+                                        style="font-size: 16px; margin-left: 10px;"> Logout</a>
+                                </li>
+                                
+                                <li class="only-visitor">
+                                    <a class="nav-link click-scroll bi bi-pencil-square" href="/login" style="font-size: 16px; margin-left: 10px;"> Login</a>
+                                </li>
+
+                                <li class="only-visitor">
+                                    <a class="nav-link click-scroll bi bi-box-arrow-right" href="/signup"
+                                        style="font-size: 16px; margin-left: 10px;"> Signup</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+            <div class="container text-center">
+                <h1 class="text-white">Tabayyan</h1>
+                <h1 class="text-white">Fake or Real Job?</h1>
+                <h6>website to validate job offers around the world</h6>
+
+                <div class="text-center mt-5">
+                    <a href="/verify" class="custom-button">
+                        Verify Your Job Offer Now!
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="featured-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8 mb-4 left-card">
+                        <div class="custom-block bg-white shadow-lg">
+                            <div class="d-flex flex-column">
+                                <h5 class="mb-2">Fake job</h5>
+                                <p class="mb-0">When you are searching for a job do not forget to verify its authenticity. In
+                                    order not to be vulnerable to fraud, you can do this through our website.</p>
+                                <img src="images/Fake_job.png" class="custom-block-image img-fluid mt-3" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-8 mb-4 right-card">
+                        <div class="custom-block bg-white shadow-lg">
+                            <img src="images/tips.png" class="img-fluid" alt="">
+                            <div class="d-flex flex-column">
+                                <ul class="mb-0">
+                                    <li>Beware of unrealistic offers.</li>
+                                    <li>Be skeptical of upfront payments.</li>
+                                    <li>Watch out for poor grammar and spelling.</li>
+                                    <li>Report suspicious ads.</li>
+                                    <li>Be cautious of personal information requests.</li>
+                                    <li>Lack of Details.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="How-it-work-section section-padding" id="section_2">
+            <div class="section-overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2 class="text-white mb-4">How does it work?</h2>
+                    </div>
+                    <div class="col-lg-10 col-12 mx-auto">
+                        <div class="timeline-container">
+                            <h4>
+                                <div style="color: aliceblue;">When you click the 'Verify Your Job Offer Now!' button on the Homepage, you can verify your job offer by entering
+                                     the job advertisement URL and providing the job advertisement details for validation.</div>
+                            </h4>
+                            <ul class="vertical-scrollable-timeline" id="vertical-scrollable-timeline">
+                                <div class="list-progress">
+                                    <div class="inner"></div>
+                                </div>
+                                <li>
+                                    <h4 class="text-white mb-3">Verify Your Job Offer Now!</h4>
+                                    <div class="icon-holder">
+                                        <i class="bi-check-circle-fill"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4 class="text-white mb-3">Enter the URL of the Job Ad</h4>
+                                    <div class="icon-holder">
+                                        <i class="bi-link-45deg"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4 class="text-white mb-3">Our checker will notify you whether it is fake or not</h4>
+                                    <div class="icon-holder">
+                                        <i class="bi-search"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4 class="text-white mb-3">Click here to check the job ad!</h4>
+                                    <div class="icon-holder">
+                                        <i class="bi-arrow-right-circle-fill"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4 class="text-white mb-3">Enter the details of the job ad for verification</h4>
+                                    <div class="icon-holder">
+                                        <i class="bi-pencil-fill"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4 class="text-white mb-3">View the verification result: Real or Fake</h4>
+                                    <div class="icon-holder">
+                                        <i class="bi-check-circle-fill"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section section-padding background-color-white" id="section_3">
+            <div class="container">
+                <h3 class="mb-5">Contact Us!</h3>
+                <p class="mb-0">
+                <h5>We're Here To Help And Answer Any Questions You Might Have. We Look Forward To Hearing From You.
+                </h5>
+                </p>
+                <div class="contact-style-l">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        class="bi bi-twitter-x" viewBox="0 0 16 16">
+                        <path
+                            d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
+                    </svg>
+                    <a href="">
+                        <br>Tabayyan
+                    </a>
+
+                    <div class="contact-style-r"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path
+                            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+                    </svg>
+                    <a href="mailto:Tabayyan@gmail.com">
+                        <br>Tabayyan@gmail.com
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-12 mb-4 pb-2">
+                    <a class="navbar-brand mb-2" href="index.html">
+                        <span>Tabayyan</span>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6">
+                    <h6 class="site-footer-title mb-3">Resources</h6>
+                    <ul class="site-footer-links">
+                        <li class="site-footer-link-item">
+                            <a href="#section_1" class="site-footer-link">Home</a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="#section_2" class="site-footer-link">How it works</a>
+                        </li>
+                        <li class="site-footer-link-item">
+                            <a href="#section_3" class="site-footer-link">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
+                    <h6 class="site-footer-title mb-3">Information</h6>
+                    <p class="text-white d-flex mb-1">
+                        <a class="site-footer-link">Tabayyan</a>
+                    </p>
+                    <p class="text-white d-flex">
+                        <a href="mailto:Tabayyan@gmail.com" class="site-footer-link">Tabayyan@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/click-scroll.js"></script>
+    <script src="js/custom.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Tabayyan Profile</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="css/templatemo-topic-listing.css" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-storage-compat.js"></script>
+    <script src="/js/main.js"></script>
+
+    <style>
+        
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background-color: rgb(10, 57, 70);
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            padding: 10px 20px;
+            border: none;
+        }
+        #result-success {
+            background-color: #d4edda;
+            color: #155724;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none; /* Initially hidden */
+        }
+    </style>
+
+
+    
+</head>
+
+<body id="top">
+
+    <main>
+
+        <section class="d-flex justify-content-center align-items-center " id="section_1">
+
+            <form class="signup-form" onsubmit="updateProfileForm(event)" style="margin-top: 100px;">
+                <div style="text-align: center;">
+                    <h1>My profile</h1>
+                </div>
+                <p id="result-success"></p>
+                <div class="row">
+                    <div class="d-none d-lg-block col-lg-4 col-8">
+                        <a href="#top" class="navbar-icon bi-person-fill smoothscroll"></a>
+                        <label for="FN" style="color: rgb(10, 57, 70); font-size: 22px;">First Name</label>
+                        <input type="text" maxlength="10" id="FN" required>
+                    </div>
+                    <div class="d-none d-lg-block col-lg-4 col-8">
+                        <a href="#top" class="navbar-icon bi-person-fill smoothscroll"></a>
+                        <label for="LN" style="color: rgb(10, 57, 70); font-size: 22px;">Last Name</label>
+                        <input type="text" maxlength="10" id="LN" required>
+                    </div>
+                </div>
+                <div class="d-none d-lg-block">
+                    <a href="#top" class="navbar-icon bi-envelope-fill smoothscroll"></a>
+                    <label for="Email" style="color: rgb(10, 57, 70); font-size: 22px;">Email</label>
+                    <input type="email" maxlength="20" id="Email" required disabled>
+                </div>
+                <div class="button-container">
+                    <button style="background-color: rgb(10, 57, 70); color: white; font-size: 18px; border-radius: 10px; padding: 10px 20px; border: none;" type="submit" class="form-control">
+                        Save changes
+                    </button>
+                </div>
+
+                <div class="content-area">
+                    <aside>
+                        <nav>
+
+
+                            <img src="images/Logo2.png" class="custom-block-image-Logo img-fluid" alt="">
+
+                            <a href="/profile" class="nav-linke actives ">
+                                <i class="bi bi-pencil-square"></i>
+                                <span id="active-span"> My profile </span>
+                            </a>
+
+                            <a href="/#section_1" class="nav-linke ">
+                                <i class="bi-person"></i>
+                                <span> Home</span>
+                            </a>
+
+
+                            <a href="/#section_2" class="nav-linke ">
+                                <i class="bi bi-question-circle"></i>
+                                <span> How it is work?</span>
+                            </a>
+
+                            <a href="/#section_3" class="nav-linke ">
+                                <i class="bi bi-envelope-check-fill"></i>
+                                <span> Contact us! </span>
+                            </a>
+
+                            <a href="/history" class="nav-linke ">
+                                <i class="bi bi-clock-history"></i>
+                                <span> History</span>
+                            </a>
+
+
+
+                            <a href="/login" class="nav-linke ">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span> Logout</span>
+                            </a>
+
+                        </nav>
+                    </aside>
+                </div>
+            </form>
+        </section>
+
+    </main>
+</body>
+
+<script>
+    function setSuccessMessage(message) {
+        const successElement = document.getElementById('result-success');
+        successElement.textContent = message;
+        successElement.style.display = 'block';
+    }
+
+    function updateProfileForm(event) {
+        event.preventDefault();
+        const FN = document.getElementById("FN").value;
+        const LN = document.getElementById("LN").value;
+        updateProfile(FN, LN);
+    }
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            getProfileData();
+        }
+    });
+    const emailInput = document.getElementById("Email");
+    const passwordInput = document.getElementById("Password");
+    const toggleInputsBtn = document.getElementById("toggleInputs");
+
+    toggleInputsBtn.addEventListener("click", () => {
+        emailInput.disabled = !emailInput.disabled;
+        passwordInput.disabled = !passwordInput.disabled;
+    });
+</script>
+
+</html>

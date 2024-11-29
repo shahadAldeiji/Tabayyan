@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verify Job Advertisement</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-storage-compat.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="{{ url_for('css', filename='bootstrap.min.css') }}">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+            url("{{ url_for('images', filename='index_imagee.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .custom-form {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            color: black;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .custom-form:hover {
+            transform: scale(1.02);
+        }
+
+        .custom-button,
+        .reload-button {
+            background-color: #1c5f81;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-button:hover,
+        .reload-button:hover {
+            background-color: #174a64;
+        }
+
+        .form-label {
+            color: #1c5f81;
+            font-weight: bold;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 5px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .result-safe {
+            background-color: #e9f7ec;
+            color: #2d572c;
+            border-left: 5px solid #28a745;
+        }
+
+        .result-suspicious {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+
+        .nav-link {
+            display: block;
+            margin-top: 10px;
+            color: gray;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            display: none;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            color: #1c5f81;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <h2 class="text-center mb-4" style="color: white;">Verify the URL of the job advertisement</h2>
+    <div class="custom-form">
+        {% if result %}
+        <div class="result {% if result == 'Safe website' %}result-safe{% else %}result-suspicious{% endif %}">
+            The link <strong>{{ entered_url }}</strong> is a {{ result }}.
+            {% if result == 'Suspicious website' %}
+            <p>This means the job ad might also be fake.</p>
+            {% endif %}
+            <script>
+                saveUrlHistory('{{history["url"]}}', '{{history["result"]}}', '{{history["uid"]}}');
+            </script>
+        </div>
+        {% if result == 'Safe website' %}
+        <button class="custom-button w-100" onclick="window.location.href='/enter-details';">
+            Click here to check the job ad!
+        </button>
+        {% else %}
+        <button class="reload-button w-100" onclick="window.location.href='/verify';">Search again?</button>
+        {% endif %}
+        <a class="nav-link click-scroll" style="text-align: center; color:gray;" href="/">Back to <span
+                style="color: rgb(24, 168, 208);"><u>Home</u></span></a>
+
+        {% else %}
+        <form method="POST" onsubmit="showLoading()">
+            <div class="mb-3">
+                <label for="jobUrl" class="form-label">Job URL</label>
+                <input type="text" class="form-control" name="url" id="jobUrl" placeholder="Enter job URL" required>
+                <input type="hidden" id="uid" name="uid" />
+            </div>
+            <button type="submit" class="custom-button w-100">Submit</button>
+            <a class="nav-link click-scroll" style="text-align: center; color:gray;" href="/">Back to <span
+                    style="color: rgb(24, 168, 208);"><u>Home</u></span></a>
+
+        </form>
+        {% endif %}
+    </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+    </script>
+
+    <script src="{{ url_for('js', filename='bootstrap.bundle.min.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Job Advertisement Verification Result</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-storage-compat.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="{{ url_for('css', filename='bootstrap.min.css') }}">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+            url("{{ url_for('images', filename='index_imagee.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .custom-form {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            color: black;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .custom-form:hover {
+            transform: scale(1.02);
+        }
+
+        .custom-button {
+            background-color: #1c5f81;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-button:hover {
+            background-color: #174a64;
+        }
+
+        .result-safe {
+            background-color: #e9f7ec;
+            color: #2d572c;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .result-fake {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .nav-link {
+            display: block;
+            margin-top: 10px;
+            color: gray;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: rgb(24, 168, 208);
+        }
+    </style>
+</head>
+
+<body>
+    <h2 class="text-center mb-4" style="color: white;">Job Advertisement Verification Result</h2>
+
+    <script>
+        var result = "";
+    </script>
+    <div class="custom-form">
+        {% if 'Real' in result %}
+        <div class="result-safe">
+            The job advertisement is <strong>Real</strong>. You can proceed with confidence!
+            <script>
+                result = "real";
+            </script>
+        </div>
+        {% else %}
+        <div class="result-fake">
+            The job advertisement is <strong>Fake</strong>. Be cautious and verify before proceeding.
+            <script>
+                result = "fake";
+            </script>
+        </div>
+        {% endif %}
+
+        <script>
+            saveJobHistory(
+                {
+                    job_title: '{{job_dict["job_title"]}}',
+                    company_name: '{{job_dict["company_name"]}}',
+                    location: '{{job_dict["location"]}}',
+                    job_description: '{{job_dict["job_description"]}}',
+                    job_function: '{{job_dict["job_function"]}}',
+                    requirements: '{{job_dict["requirements"]}}',
+                    education: '{{job_dict["education"]}}',
+                    benefits: '{{job_dict["benefits"]}}',
+                    other_info: '{{job_dict["other_info"]}}',
+                    job_result: result,
+
+                    url: '{{job_dict["url"]}}',
+                    url_result: '{{job_dict["url_result"]}}',
+                    uid: '{{job_dict["uid"]}}'
+                }
+            );
+        </script>
+        <a class="nav-link click-scroll" style="text-align: center; color:gray;" href="/">Back to <span
+                style="color: rgb(24, 168, 208);"><u>Home</u></span></a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enter Job Advertisement Details</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-storage-compat.js"></script>
+    <link rel="stylesheet" href="{{ url_for('css', filename='bootstrap.min.css') }}">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+            url("{{ url_for('images', filename='index_imagee.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 60px;
+            /* reduced padding */
+            border-radius: 8px;
+            width: 90%;
+            /* makes it responsive */
+            z-index: 1;
+            color: black;
+            width: 900px;
+            margin-top: 600px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #1c5f81;
+        }
+
+        .submit-button {
+            background-color: #1c5f81;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            background-color: #174a64;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            display: none;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            color: #1c5f81;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h2 class="text-center mb-4">Enter Job Ad Details</h2>
+        <form action="{{ url_for('enter_details') }}" method="POST" onsubmit="showLoading()">
+            <!-- Form fields -->
+            <!-- Two-column layout for the first four fields -->
+            <div class="row form-row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="jobTitle" class="form-label">Job Title</label>
+                        <input type="text" class="form-control" id="jobTitle" name="jobTitle">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="companyName" class="form-label">Company Name</label>
+                        <input type="text" class="form-control" id="companyName" name="companyName">
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" name="location">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="education" class="form-label">Education</label>
+                        <input type="text" class="form-control" id="education" name="education">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single-column layout for remaining fields -->
+            <div class="row form-row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="jobDescription" class="form-label">Job Description</label>
+                        <textarea class="form-control" id="jobDescription" name="jobDescription" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="requirements" class="form-label">Requirements</label>
+                        <textarea class="form-control" id="requirements" name="requirements" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="function" class="form-label">Function</label>
+                        <textarea class="form-control" id="function" name="function" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="benefit" class="form-label">Benefit</label>
+                        <textarea class="form-control" id="benefit" name="benefit" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="other" class="form-label">Other</label>
+                        <textarea class="form-control" id="other" name="other" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button">Submit for Verification</button>
+            <a class="nav-link click-scroll" style="text-align: center; color:gray;" href="/">Back to <span
+                    style="color: rgb(24, 168, 208);"><u>Home</u></span></a>
+
+            <input type="hidden" id="url" name="url" />
+            <input type="hidden" id="url-result" name="url_result" />
+            <input type="hidden" id="uid" name="uid" />
+        </form>
+    </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+    </script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

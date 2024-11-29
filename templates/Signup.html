@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Tabyyan Signup</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="css/templatemo-topic-listing.css" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-storage-compat.js"></script>
+    <script src="/js/main.js"></script>
+
+    <style>
+        .dropdown-menu li a:hover {
+            background-color: #f0f0f0;
+            color: #1c5f81;
+            text-decoration: none;
+        }
+        .navbar {
+            position: static;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        #result-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .password-container {
+            position: relative;
+        }
+        #Password {
+            padding-right: 40px;
+        }
+        #togglePassword {
+            position: absolute;
+            right: 10px;
+            top: 75%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: gray;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <nav class="navbar navbar-expand-lg hero-section-tl">
+            <div class="container">
+                <img src="images/Logo2.png" class="custom-block-image-Logo img-fluid" alt="">
+                <div class="d-lg-none ms-auto me-4">
+                    <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/#section_1">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/#section_2">How it works</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/#section_3">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <section class="backgroung-LS justify-content-center align-items-center section-padding" id="section_1"
+            style="min-height: 100vh;">
+            <form onsubmit="signupForm(event)" class="signup-form">
+                <div style="text-align: center;">
+                    <h1>SignUp</h1>
+                </div>
+
+                <p id="result-success"></p>
+                <p id="result-error"></p>
+
+                <div class="row mb-3">
+                    <div class="col-12 col-lg-6">
+                        <label for="FN" style="color: rgb(24, 168, 208); font-size: 22px;">First Name</label>
+                        <input type="text" class="form-control" placeholder="Enter your First Name" maxlength="10"
+                            id="FN" required>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <label for="LN" style="color: rgb(24, 168, 208); font-size: 22px;">Last Name</label>
+                        <input type="text" class="form-control" placeholder="Enter your Last Name" maxlength="10"
+                            id="LN" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="Email" style="color: rgb(24, 168, 208); font-size: 22px;">Email</label>
+                    <input type="email" class="form-control" placeholder="Enter your Email" id="Email" required>
+                </div>
+                <div class="password-container mb-4">
+                    <label for="Password" style="color: rgb(24, 168, 208); font-size: 22px;">Password</label>
+                    <input type="password" class="form-control" placeholder="Password" maxlength="10" id="Password" required>
+                    <i class="bi bi-eye-fill" id="togglePassword"></i>
+                </div>
+                <div style="text-align: center;">
+                    <button
+                        style="background-color: var(--dark-blue-color); color: white; font-size: 20px; border-radius: 10px;border: 2px solid white;"
+                        type="submit">Create account</button>
+                </div>
+                <br>
+                <a class="nav-link click-scroll" style="text-align: center;" href="/login"> You already have an
+                    Account?<span style="color: rgb(24, 168, 208);"><u>Login</u></span></a>
+            </form>
+        </section>
+    </main>
+    <script>
+        function signupForm(e) {
+            e.preventDefault();
+            const fName = document.getElementById("FN").value;
+            const lName = document.getElementById("LN").value;
+            const email = document.getElementById("Email").value;
+            const password = document.getElementById("Password").value;
+            signupUser(email, password, fName, lName);
+        }
+
+        function setErrorMessage(message) {
+            const errorElement = document.getElementById('result-error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function clearResults() {
+            const errorElement = document.getElementById('result-error');
+            errorElement.style.display = 'none';
+            errorElement.textContent = '';
+        }
+
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#Password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('bi-eye-fill');
+            this.classList.toggle('bi-eye-slash-fill');
+        });
+    </script>
+</body>
+
+</html>
